@@ -4,6 +4,8 @@ import { StatusBar } from 'react-native';
 
 import { isDarkMode } from 'lib/device';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Provider } from 'react-redux';
+import { store } from 'store';
 import { ThemeProvider } from 'styled-components/native';
 
 import { lightTheme, darkTheme } from './config/styles';
@@ -14,10 +16,12 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <SafeAreaProvider>
-        <StatusBar backgroundColor="transparent" translucent barStyle="dark-content" />
-        <RootNavigator />
-      </SafeAreaProvider>
+      <Provider store={store}>
+        <SafeAreaProvider>
+          <StatusBar backgroundColor="transparent" translucent barStyle="dark-content" />
+          <RootNavigator />
+        </SafeAreaProvider>
+      </Provider>
     </ThemeProvider>
   );
 };

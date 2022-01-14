@@ -1,8 +1,9 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import { Text } from 'react-native';
 
 import { BaseContainer, BasicHeader } from 'components';
 import { i18n } from 'config/translations';
+import { usePatientsApi } from 'lib/hooks';
 import styled from 'styled-components/native';
 
 const baseTranslationPath = 'Screens:HomeScreen:';
@@ -12,6 +13,12 @@ const Container = styled(BaseContainer)`
 `;
 
 export const HomeScreen = memo(() => {
+  const { fetchPatientsList } = usePatientsApi();
+
+  useEffect(() => {
+    fetchPatientsList();
+  }, []);
+
   return (
     <Container>
       <Text>Home Screen</Text>
