@@ -1,5 +1,4 @@
 import React from 'react';
-import { FlatList, ListRenderItem } from 'react-native';
 
 import { AccentContainer, Body, EventTile, Header2 } from 'components';
 import { i18n } from 'config/translations';
@@ -27,21 +26,19 @@ type PropsType = {
 const baseTranslationPath = 'Screens:PatientDetailsScreen:';
 
 export const EventList = ({ events }: PropsType) => {
-  const renderItem: ListRenderItem<EventType> = ({ item, index }) => {
-    const isFirstElement = index === 0;
-
-    return (
-      <>
-        {isFirstElement && <Divider>_</Divider>}
-        <EventTile eventDate={item.createdAt} eventDescription={item.text} />
-      </>
-    );
-  };
-
   return (
     <Container style={shadowBoxStyle}>
       <Header2>{i18n.t(`${baseTranslationPath}events`)}:</Header2>
-      <FlatList data={events} renderItem={renderItem} />
+      {events.map((item, index) => {
+        const isFirstElement = index === 0;
+
+        return (
+          <>
+            {isFirstElement && <Divider>_</Divider>}
+            <EventTile eventDate={item.createdAt} eventDescription={item.text} />
+          </>
+        );
+      })}
     </Container>
   );
 };

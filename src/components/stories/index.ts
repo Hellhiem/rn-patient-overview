@@ -7,3 +7,4 @@ import '../Headers/__stories__/Headers.stories';
 import '../PatientImage/__stories__/PatientImage.stories';
 import '../PatientProfile/__stories__/PatientProfile.stories';
 import '../EventTile/__stories__/EventTile.stories';
+import '../Button/__stories__/Button.stories';

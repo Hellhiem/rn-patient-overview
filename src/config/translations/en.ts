@@ -5,6 +5,7 @@ export const en = {
     },
     PatientDetailsScreen: {
       events: 'Events',
+      forwardPatient: 'Forward patient',
     },
   },
   Components: {

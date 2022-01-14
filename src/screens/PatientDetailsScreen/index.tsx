@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { Text } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { BaseContainer, LoadingIndicator, PatientDetailsHeader, PatientProfile } from 'components';
+import { BaseContainer, Button, LoadingIndicator, PatientDetailsHeader, PatientProfile } from 'components';
+import { i18n } from 'config/translations';
 import { usePatientsApi } from 'lib/hooks';
 import { useSelector } from 'react-redux';
 import {
@@ -23,6 +24,13 @@ const PatientProfileContainer = styled.View`
   margin-top: 32px;
 `;
 
+const ButtonContainer = styled.View`
+  padding: 16px;
+  margin-bottom: 16px;
+`;
+
+const baseTranslationPath = 'Screens:PatientDetailsScreen:';
+
 export const PatientDetailsScreen = () => {
   const { fetchPatientDetails } = usePatientsApi();
   const route: RouteProp<RootStackParams, Route.PatientDetailsScreen> = useRoute();
@@ -35,17 +43,22 @@ export const PatientDetailsScreen = () => {
   }, []);
 
   return selectedPatientDetails && !isPatientDetailsLoading ? (
-    <Container>
-      <PatientProfileContainer>
-        <PatientProfile
-          name={selectedPatientDetails.name}
-          birthDate={selectedPatientDetails.birthDate}
-          isForwarded={selectedPatientDetails.isForwarded}
-          lastVisitDate={selectedPatientDetails.updatedAt}
-          gender={selectedPatientDetails.gender}
-        />
-      </PatientProfileContainer>
-      <EventList events={selectedPatientDetails.events} />
+    <Container as={ScrollView}>
+      <View>
+        <PatientProfileContainer>
+          <PatientProfile
+            name={selectedPatientDetails.name}
+            birthDate={selectedPatientDetails.birthDate}
+            isForwarded={selectedPatientDetails.isForwarded}
+            lastVisitDate={selectedPatientDetails.updatedAt}
+            gender={selectedPatientDetails.gender}
+          />
+        </PatientProfileContainer>
+        <EventList events={selectedPatientDetails.events} />
+      </View>
+      <ButtonContainer>
+        <Button label={i18n.t(`${baseTranslationPath}forwardPatient`)} onPress={() => null} />
+      </ButtonContainer>
     </Container>
   ) : (
     <LoadingIndicator />
