@@ -1,6 +1,9 @@
 import { apiCallErrorState, startApiCallState } from 'lib/dataParsers';
-import { errorInterfaceMock, patientsListMock } from 'mocks';
+import { errorInterfaceMock, patientsDetailsMock, patientsListMock } from 'mocks';
 import {
+  fetchPatientDetailsAction,
+  fetchPatientDetailsErrorAction,
+  fetchPatientDetailsSuccessAction,
   fetchPatientListAction,
   fetchPatientListErrorAction,
   fetchPatientListSuccessAction,
@@ -21,11 +24,12 @@ describe('Reducers: patients', () => {
 
   it('should return proper state for FETCH_PATIENT_LIST_SUCCESS action', () => {
     const expectedState: PatientsState = {
+      ...initialState,
       loading: {
+        ...initialState.loading,
         fetchPatientsListLoading: false,
       },
       patientsList: patientsListMock,
-      error: null,
     };
 
     expect(patientsReducer(initialState, fetchPatientListSuccessAction(patientsListMock))).toEqual(
@@ -41,6 +45,42 @@ describe('Reducers: patients', () => {
     );
 
     expect(patientsReducer(initialState, fetchPatientListErrorAction(errorInterfaceMock))).toEqual(
+      expectedState,
+    );
+  });
+
+  it('should return proper state for FETCH_PATIENT_DETAILS action', () => {
+    const expectedState = startApiCallState(
+      initialState,
+      PatientsReducerLoadingType.fetchSelectedPatientDetailsLoading,
+    );
+
+    expect(patientsReducer(initialState, fetchPatientDetailsAction('1'))).toEqual(expectedState);
+  });
+
+  it('should return proper state for FETCH_PATIENT_DETAILS_SUCCESS action', () => {
+    const expectedState: PatientsState = {
+      ...initialState,
+      loading: {
+        ...initialState.loading,
+        fetchSelectedPatientDetailsLoading: false,
+      },
+      selectedPatientDetails: patientsDetailsMock,
+    };
+
+    expect(patientsReducer(initialState, fetchPatientDetailsSuccessAction(patientsDetailsMock))).toEqual(
+      expectedState,
+    );
+  });
+
+  it('should return proper state for FETCH_PATIENT_DETAILS_ERROR action', () => {
+    const expectedState = apiCallErrorState(
+      initialState,
+      PatientsReducerLoadingType.fetchSelectedPatientDetailsLoading,
+      errorInterfaceMock,
+    );
+
+    expect(patientsReducer(initialState, fetchPatientDetailsErrorAction(errorInterfaceMock))).toEqual(
       expectedState,
     );
   });

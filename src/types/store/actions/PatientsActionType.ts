@@ -1,4 +1,7 @@
 import {
+  fetchPatientDetailsAction,
+  fetchPatientDetailsErrorAction,
+  fetchPatientDetailsSuccessAction,
   fetchPatientListAction,
   fetchPatientListErrorAction,
   fetchPatientListSuccessAction,
@@ -9,3 +12,9 @@ export type FetchPatientListActionType = ReturnType<typeof fetchPatientListActio
 export type FetchPatientListSuccessActionType = ReturnType<typeof fetchPatientListSuccessAction>;
 
 export type FetchPatientListErrorActionType = ReturnType<typeof fetchPatientListErrorAction>;
+
+export type FetchPatientDetailsActionType = ReturnType<typeof fetchPatientDetailsAction>;
+
+export type FetchPatientDetailsSuccessActionType = ReturnType<typeof fetchPatientDetailsSuccessAction>;
+
+export type FetchPatientDetailsErrorActionType = ReturnType<typeof fetchPatientDetailsErrorAction>;

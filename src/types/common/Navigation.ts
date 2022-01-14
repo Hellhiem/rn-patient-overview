@@ -4,6 +4,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 export enum Route {
   HomeScreen = 'HomeScreen',
   Storybook = 'Storybook',
+  PatientDetailsScreen = 'PatientDetailsScreen',
 }
 
 type NoParams = undefined;
@@ -13,6 +14,9 @@ type NoParams = undefined;
 export type RootStackParams = {
   [Route.HomeScreen]: NoParams;
   [Route.Storybook]: NoParams;
+  [Route.PatientDetailsScreen]: {
+    patientId: string;
+  };
 };
 
 /* Utility types for screens */

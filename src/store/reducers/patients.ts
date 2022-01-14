@@ -6,13 +6,18 @@ import {
   fetchPatientListAction,
   fetchPatientListSuccessAction,
   fetchPatientListErrorAction,
+  fetchPatientDetailsAction,
+  fetchPatientDetailsSuccessAction,
+  fetchPatientDetailsErrorAction,
 } from '../actions';
 
 export const initialState: PatientsState = {
   loading: {
     fetchPatientsListLoading: false,
+    fetchSelectedPatientDetailsLoading: false,
   },
   patientsList: null,
+  selectedPatientDetails: null,
   error: null,
 };
 
@@ -31,5 +36,25 @@ export const patientsReducer = createReducer(initialState, (builder) => {
 
   builder.addCase(fetchPatientListErrorAction, (state, action) =>
     apiCallErrorState(state, PatientsReducerLoadingType.fetchPatientsListLoading, action.payload.error),
+  );
+
+  builder.addCase(fetchPatientDetailsAction, (state) =>
+    startApiCallState(state, PatientsReducerLoadingType.fetchSelectedPatientDetailsLoading),
+  );
+
+  builder.addCase(fetchPatientDetailsSuccessAction, (state, action) => {
+    state.loading = {
+      ...state.loading,
+      fetchSelectedPatientDetailsLoading: false,
+    };
+    state.selectedPatientDetails = action.payload.patientDetails;
+  });
+
+  builder.addCase(fetchPatientDetailsErrorAction, (state, action) =>
+    apiCallErrorState(
+      state,
+      PatientsReducerLoadingType.fetchSelectedPatientDetailsLoading,
+      action.payload.error,
+    ),
   );
 });

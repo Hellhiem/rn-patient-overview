@@ -7,3 +7,11 @@ export const getPatientsListSelector = (state: AppState) => {
 export const getPatientsListLoadingSelector = (state: AppState) => {
   return state.patients.loading.fetchPatientsListLoading;
 };
+
+export const getSelectedPatientDetailsSelector = (state: AppState) => {
+  return state.patients.selectedPatientDetails;
+};
+
+export const getSelectedPatientsDetailsLoadingSelector = (state: AppState) => {
+  return state.patients.loading.fetchSelectedPatientDetailsLoading;
+};

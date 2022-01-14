@@ -1,5 +1,8 @@
-import { errorInterfaceMock, patientsListMock } from 'mocks';
+import { errorInterfaceMock, patientsListMock, patientsDetailsMock } from 'mocks';
 import {
+  FetchPatientDetailsActionType,
+  FetchPatientDetailsErrorActionType,
+  FetchPatientDetailsSuccessActionType,
   FetchPatientListActionType,
   FetchPatientListErrorActionType,
   FetchPatientListSuccessActionType,
@@ -7,6 +10,9 @@ import {
 
 import { fetchPatientListErrorAction } from '..';
 import {
+  fetchPatientDetailsAction,
+  fetchPatientDetailsErrorAction,
+  fetchPatientDetailsSuccessAction,
   fetchPatientListAction,
   fetchPatientListSuccessAction,
   PatientsActionConstantsType,
@@ -42,5 +48,40 @@ describe('Actions: patients', () => {
     };
 
     expect(fetchPatientListErrorAction(errorInterfaceMock)).toEqual(fetchPatientListErrorActionData);
+  });
+
+  it('should return proper data when fetchPatientDetailsAction is called', () => {
+    const fetchPatientDetailsActionData: FetchPatientDetailsActionType = {
+      type: PatientsActionConstantsType.FETCH_PATIENT_DETAILS,
+      payload: {
+        patientId: '1',
+      },
+    };
+
+    expect(fetchPatientDetailsAction('1')).toEqual(fetchPatientDetailsActionData);
+  });
+
+  it('should return proper data when fetchPatientDetailsSuccessAction is called', () => {
+    const fetchPatientDetailsSuccessActionData: FetchPatientDetailsSuccessActionType = {
+      type: PatientsActionConstantsType.FETCH_PATIENT_DETAILS_SUCCESS,
+      payload: {
+        patientDetails: patientsDetailsMock,
+      },
+    };
+
+    expect(fetchPatientDetailsSuccessAction(patientsDetailsMock)).toEqual(
+      fetchPatientDetailsSuccessActionData,
+    );
+  });
+
+  it('should return proper data when fetchPatientDetailsErrorAction is called', () => {
+    const fetchPatientDetailsErrorActionData: FetchPatientDetailsErrorActionType = {
+      type: PatientsActionConstantsType.FETCH_PATIENT_DETAILS_ERROR,
+      payload: {
+        error: errorInterfaceMock,
+      },
+    };
+
+    expect(fetchPatientDetailsErrorAction(errorInterfaceMock)).toEqual(fetchPatientDetailsErrorActionData);
   });
 });
