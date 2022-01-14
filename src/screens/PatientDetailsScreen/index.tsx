@@ -12,6 +12,8 @@ import {
 import styled from 'styled-components/native';
 import { RootStackParams, Route } from 'types';
 
+import { EventList } from './components';
+
 const Container = styled(BaseContainer)`
   padding-vertical: 16px;
   height: 100%;
@@ -43,6 +45,7 @@ export const PatientDetailsScreen = () => {
           gender={selectedPatientDetails.gender}
         />
       </PatientProfileContainer>
+      <EventList events={selectedPatientDetails.events} />
     </Container>
   ) : (
     <LoadingIndicator />

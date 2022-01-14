@@ -3,6 +3,15 @@ export const en = {
     HomeScreen: {
       headerTitle: 'Patients Overview',
     },
+    PatientDetailsScreen: {
+      events: 'Events',
+    },
+  },
+  Components: {
+    EventTile: {
+      event: 'Event',
+      eventDate: 'Event date',
+    },
   },
   Common: {
     yes: 'Yes',
