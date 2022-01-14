@@ -2,15 +2,20 @@ import React from 'react';
 import { SafeAreaView, StatusBar } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
-import { BackButtonDark, BackButtonLight } from 'assets/images';
+import { BookIconDark, BookIconLight } from 'assets/images';
 import { isAndroid, isDarkMode } from 'lib/device';
 import styled from 'styled-components/native';
+import { Route } from 'types';
 
 import { Header2 } from '../Typography';
 
-const Container = styled.View`
+type ContainerPropsType = {
+  title?: string;
+};
+
+const Container = styled.View<ContainerPropsType>`
   flex-direction: row;
-  justify-content: center;
+  justify-content: ${({ title }) => (title ? 'space-between' : 'flex-end')};
   align-items: center;
   height: 68px;
   background-color: ${({ theme }) => theme.colors.background};
@@ -21,28 +26,33 @@ const Container = styled.View`
 `;
 
 const TouchableIcon = styled.TouchableOpacity`
-  position: absolute;
-  left: 0;
   justify-content: center;
-  align-items: center;
+  align-items:center;
+  border-width: 0.5px;
   width: 48px;
   height: 48px;
+  border-radius: 24px
+  border-color: ${({ theme }) => theme.colors.inverted};
 `;
 
 type PropsType = {
   title?: string;
 };
 
-export const BasicHeader = ({ title }: PropsType) => {
-  const { goBack } = useNavigation();
+export const StoryControlledHeader = ({ title }: PropsType) => {
+  const { navigate } = useNavigation();
 
-  const getBackIcon = () => (isDarkMode() ? <BackButtonLight /> : <BackButtonDark />);
+  const openStorybook = () => {
+    navigate(Route.Storybook);
+  };
+
+  const getBookIcon = () => (isDarkMode() ? <BookIconLight /> : <BookIconDark />);
 
   return (
     <SafeAreaView>
-      <Container>
-        <TouchableIcon onPress={goBack}>{getBackIcon()}</TouchableIcon>
+      <Container title={title}>
         {title && <Header2>{title}</Header2>}
+        <TouchableIcon onPress={openStorybook}>{getBookIcon()}</TouchableIcon>
       </Container>
     </SafeAreaView>
   );

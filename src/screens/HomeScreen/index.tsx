@@ -1,14 +1,15 @@
 import React, { memo, useEffect } from 'react';
 import { ListRenderItem } from 'react-native';
 
-import { BaseContainer, BasicHeader, LoadingIndicator, PatientTile } from 'components';
+import { useNavigation } from '@react-navigation/native';
+import { BaseContainer, StoryControlledHeader, LoadingIndicator, PatientTile } from 'components';
 import { i18n } from 'config/translations';
 import { usePatientsApi } from 'lib/hooks';
 import { FlatList } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux';
 import { getPatientsListLoadingSelector, getPatientsListSelector } from 'store/selectors/patients';
 import styled from 'styled-components/native';
-import { PatientListItemType } from 'types';
+import { PatientListItemType, Route } from 'types';
 
 const baseTranslationPath = 'Screens:HomeScreen:';
 
@@ -22,14 +23,19 @@ const TouchablePatientTile = styled.TouchableOpacity`
 `;
 
 export const HomeScreen = memo(() => {
+  const { navigate } = useNavigation();
   const { fetchPatientsList } = usePatientsApi();
 
   const patientsList = useSelector(getPatientsListSelector);
   const isPatientListLoading = useSelector(getPatientsListLoadingSelector);
 
+  const navigateToPatientDetailsScreen = (patientId: string) => {
+    navigate(Route.PatientDetailsScreen, { patientId });
+  };
+
   const renderItem: ListRenderItem<PatientListItemType> = ({ item }) => {
     return (
-      <TouchablePatientTile>
+      <TouchablePatientTile onPress={() => navigateToPatientDetailsScreen(item.id)}>
         <PatientTile
           patientName={item.name}
           dateOfBirth={item.birthDate}
@@ -53,7 +59,7 @@ export const HomeScreen = memo(() => {
 });
 
 export const homeScreenOptions = () => {
-  const header = () => <BasicHeader title={i18n.t(`${baseTranslationPath}headerTitle`)} />;
+  const header = () => <StoryControlledHeader title={i18n.t(`${baseTranslationPath}headerTitle`)} />;
 
   return {
     header,

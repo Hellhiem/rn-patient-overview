@@ -4,14 +4,13 @@ export const en = {
       headerTitle: 'Patients Overview',
     },
   },
-  Components: {
-    PatientTile: {
-      dateOfBirth: 'Date of birth',
-      forwarded: 'Forwarded',
-    },
-  },
   Common: {
     yes: 'Yes',
     no: 'No',
+    dateOfBirth: 'Date of birth',
+    forwarded: 'Forwarded',
+    name: 'Name',
+    lastVisitDate: 'Last visit date',
+    gender: 'Gender',
   },
 };

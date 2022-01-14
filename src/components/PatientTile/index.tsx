@@ -1,13 +1,13 @@
 import React, { memo } from 'react';
 
-import { patientPlaceholder } from 'assets/images';
 import { i18n } from 'config/translations';
-import { formatPatientDateOfBirth } from 'lib/helpers';
+import { formatToReadableDate } from 'lib/helpers';
 import { shadowBoxStyle } from 'lib/styles';
 import styled from 'styled-components/native';
 
 import { AccentContainer } from '../Containers';
 import { KeyData } from '../KeyData';
+import { PatientImage } from '../PatientImage';
 import { SmallBody } from '../Typography';
 
 const Container = styled(AccentContainer)`
@@ -16,12 +16,6 @@ const Container = styled(AccentContainer)`
   shadow-color: ${({ theme }) => theme.colors.shadow};
   border-radius: 8px;
   margin-horizontal: 16px;
-`;
-
-const PatientImage = styled.Image`
-  width: 60px;
-  height: 60px;
-  border-radius: 30px;
 `;
 
 const PatientName = styled(SmallBody)`
@@ -45,23 +39,22 @@ type PropsType = {
   isPatientForwarded?: boolean;
 };
 
-const baseTranslationPath = 'Components:PatientTile:';
 const commonTranslationPath = 'Common:';
 
 export const PatientTile = memo(
   ({ patientImageUrl, patientName, dateOfBirth, isPatientForwarded }: PropsType) => {
     return (
       <Container style={shadowBoxStyle}>
-        <PatientImage source={patientImageUrl ? { uri: patientImageUrl } : patientPlaceholder} />
+        <PatientImage patientImageUrl={patientImageUrl} />
         <RightInfoContainer>
           <PatientName>{patientName}</PatientName>
           <DetailsContainer>
             <KeyData
-              dataKey={i18n.t(`${baseTranslationPath}dateOfBirth`)}
-              value={formatPatientDateOfBirth(dateOfBirth)}
+              dataKey={i18n.t(`${commonTranslationPath}dateOfBirth`)}
+              value={formatToReadableDate(dateOfBirth)}
             />
             <KeyData
-              dataKey={i18n.t(`${baseTranslationPath}forwarded`)}
+              dataKey={i18n.t(`${commonTranslationPath}forwarded`)}
               value={
                 isPatientForwarded
                   ? i18n.t(`${commonTranslationPath}yes`)
