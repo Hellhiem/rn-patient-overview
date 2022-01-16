@@ -1,4 +1,5 @@
 import React from 'react';
+import { View } from 'react-native';
 
 import { AccentContainer, Body, EventTile, Header2 } from 'components';
 import { i18n } from 'config/translations';
@@ -33,10 +34,10 @@ export const EventList = ({ events }: PropsType) => {
         const isFirstElement = index === 0;
 
         return (
-          <>
+          <View key={index}>
             {isFirstElement && <Divider>_</Divider>}
             <EventTile eventDate={item.createdAt} eventDescription={item.text} />
-          </>
+          </View>
         );
       })}
     </Container>

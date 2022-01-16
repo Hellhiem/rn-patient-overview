@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { fetchPatientDetailsAction, fetchPatientListAction } from 'store/actions';
+import { fetchPatientDetailsAction, fetchPatientListAction, forwardPatientAction } from 'store/actions';
 
 export const usePatientsApi = () => {
   const dispatch = useDispatch();
@@ -8,8 +8,12 @@ export const usePatientsApi = () => {
 
   const fetchPatientDetails = (patientId: string) => dispatch(fetchPatientDetailsAction(patientId));
 
+  const forwardPatient = (patientId: string, onSuccessCallback?: () => void) =>
+    dispatch(forwardPatientAction(patientId, onSuccessCallback));
+
   return {
     fetchPatientsList,
     fetchPatientDetails,
+    forwardPatient,
   };
 };

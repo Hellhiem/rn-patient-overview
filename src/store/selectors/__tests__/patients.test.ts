@@ -2,6 +2,7 @@ import { initialState as patientsInitialState } from 'store/reducers/patients';
 import { AppState } from 'types';
 
 import {
+  getForwardPatientLoadingSelector,
   getPatientsListLoadingSelector,
   getPatientsListSelector,
   getSelectedPatientDetailsSelector,
@@ -33,6 +34,12 @@ describe('Selectors: patients', () => {
 
   it('should return proper data for getSelectedPatientsDetailsLoadingSelector', () => {
     const result = getSelectedPatientsDetailsLoadingSelector(state);
+
+    expect(result).toEqual(false);
+  });
+
+  it('should return proper data for getForwardPatientLoadingSelector', () => {
+    const result = getForwardPatientLoadingSelector(state);
 
     expect(result).toEqual(false);
   });

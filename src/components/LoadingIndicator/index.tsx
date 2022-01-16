@@ -1,4 +1,5 @@
 import React from 'react';
+import { StyleProp, ViewStyle } from 'react-native';
 
 import styled from 'styled-components/native';
 
@@ -16,9 +17,13 @@ const Loading = styled.ActivityIndicator.attrs(({ theme }) => {
   };
 })``;
 
-export const LoadingIndicator = () => {
+type PropsType = {
+  style?: StyleProp<ViewStyle>;
+};
+
+export const LoadingIndicator = ({ style }: PropsType) => {
   return (
-    <Container>
+    <Container style={style}>
       <Loading />
     </Container>
   );

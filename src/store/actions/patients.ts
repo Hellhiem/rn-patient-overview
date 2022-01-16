@@ -9,8 +9,13 @@ export enum PatientsActionConstantsType {
   FETCH_PATIENT_DETAILS = 'FETCH_PATIENT_DETAILS',
   FETCH_PATIENT_DETAILS_SUCCESS = 'FETCH_PATIENT_DETAILS_SUCCESS',
   FETCH_PATIENT_DETAILS_ERROR = 'FETCH_PATIENT_DETAILS_ERROR',
+
+  FORWARD_PATIENT = 'FORWARD_PATIENT',
+  FORWARD_PATIENT_SUCCESS = 'FORWARD_PATIENT_SUCCESS',
+  FORWARD_PATIENT_ERROR = 'FORWARD_PATIENT_ERROR',
 }
 
+// Patient List
 export const fetchPatientListAction = createAction(PatientsActionConstantsType.FETCH_PATIENT_LIST);
 
 export const fetchPatientListSuccessAction = createAction(
@@ -29,6 +34,7 @@ export const fetchPatientListErrorAction = createAction(
   }),
 );
 
+// Patient Details
 export const fetchPatientDetailsAction = createAction(
   PatientsActionConstantsType.FETCH_PATIENT_DETAILS,
   (patientId: string) => ({
@@ -45,6 +51,30 @@ export const fetchPatientDetailsSuccessAction = createAction(
 
 export const fetchPatientDetailsErrorAction = createAction(
   PatientsActionConstantsType.FETCH_PATIENT_DETAILS_ERROR,
+  (error: Error) => ({
+    payload: {
+      error: error,
+    },
+  }),
+);
+
+//Forward Patient
+export const forwardPatientAction = createAction(
+  PatientsActionConstantsType.FORWARD_PATIENT,
+  (patientId: string, successCallback?: () => void) => ({
+    payload: {
+      patientId,
+      successCallback,
+    },
+  }),
+);
+
+export const forwardPatientSuccessAction = createAction(
+  PatientsActionConstantsType.FORWARD_PATIENT_SUCCESS,
+);
+
+export const forwardPatientErrorAction = createAction(
+  PatientsActionConstantsType.FORWARD_PATIENT_ERROR,
   (error: Error) => ({
     payload: {
       error: error,

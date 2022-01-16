@@ -9,12 +9,16 @@ import {
   fetchPatientDetailsAction,
   fetchPatientDetailsSuccessAction,
   fetchPatientDetailsErrorAction,
+  forwardPatientAction,
+  forwardPatientErrorAction,
+  forwardPatientSuccessAction,
 } from '../actions';
 
 export const initialState: PatientsState = {
   loading: {
     fetchPatientsListLoading: false,
     fetchSelectedPatientDetailsLoading: false,
+    forwardPatientLoading: false,
   },
   patientsList: null,
   selectedPatientDetails: null,
@@ -22,6 +26,7 @@ export const initialState: PatientsState = {
 };
 
 export const patientsReducer = createReducer(initialState, (builder) => {
+  // Patient List
   builder.addCase(fetchPatientListAction, (state) =>
     startApiCallState(state, PatientsReducerLoadingType.fetchPatientsListLoading),
   );
@@ -38,6 +43,7 @@ export const patientsReducer = createReducer(initialState, (builder) => {
     apiCallErrorState(state, PatientsReducerLoadingType.fetchPatientsListLoading, action.payload.error),
   );
 
+  // Patient Details
   builder.addCase(fetchPatientDetailsAction, (state) =>
     startApiCallState(state, PatientsReducerLoadingType.fetchSelectedPatientDetailsLoading),
   );
@@ -56,5 +62,18 @@ export const patientsReducer = createReducer(initialState, (builder) => {
       PatientsReducerLoadingType.fetchSelectedPatientDetailsLoading,
       action.payload.error,
     ),
+  );
+
+  //Forward Patient
+  builder.addCase(forwardPatientAction, (state) =>
+    startApiCallState(state, PatientsReducerLoadingType.forwardPatientLoading),
+  );
+
+  builder.addCase(forwardPatientSuccessAction, (state) => {
+    state.loading.forwardPatientLoading = false;
+  });
+
+  builder.addCase(forwardPatientErrorAction, (state, action) =>
+    apiCallErrorState(state, PatientsReducerLoadingType.forwardPatientLoading, action.payload.error),
   );
 });

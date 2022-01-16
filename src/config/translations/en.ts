@@ -22,5 +22,7 @@ export const en = {
     name: 'Name',
     lastVisitDate: 'Last visit date',
     gender: 'Gender',
+    somethingWentWrong: 'Something went wrong',
+    ok: 'Ok',
   },
 };

@@ -4,6 +4,7 @@ export interface PatientsState {
   loading: {
     fetchPatientsListLoading: boolean;
     fetchSelectedPatientDetailsLoading: boolean;
+    forwardPatientLoading: boolean;
   };
   selectedPatientDetails: PatientType | null;
   patientsList: PatientListItemType[] | null;

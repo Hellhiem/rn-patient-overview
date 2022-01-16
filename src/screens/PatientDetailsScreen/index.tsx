@@ -7,6 +7,7 @@ import { i18n } from 'config/translations';
 import { usePatientsApi } from 'lib/hooks';
 import { useSelector } from 'react-redux';
 import {
+  getForwardPatientLoadingSelector,
   getSelectedPatientDetailsSelector,
   getSelectedPatientsDetailsLoadingSelector,
 } from 'store/selectors/patients';
@@ -17,7 +18,6 @@ import { EventList } from './components';
 
 const Container = styled(BaseContainer)`
   padding-vertical: 16px;
-  height: 100%;
 `;
 
 const PatientProfileContainer = styled.View`
@@ -32,15 +32,22 @@ const ButtonContainer = styled.View`
 const baseTranslationPath = 'Screens:PatientDetailsScreen:';
 
 export const PatientDetailsScreen = () => {
-  const { fetchPatientDetails } = usePatientsApi();
+  const { fetchPatientDetails, forwardPatient } = usePatientsApi();
   const route: RouteProp<RootStackParams, Route.PatientDetailsScreen> = useRoute();
 
   const selectedPatientDetails = useSelector(getSelectedPatientDetailsSelector);
   const isPatientDetailsLoading = useSelector(getSelectedPatientsDetailsLoadingSelector);
+  const isForwardPatientLoading = useSelector(getForwardPatientLoadingSelector);
+
+  const hasEvents = selectedPatientDetails && selectedPatientDetails.events.length > 0;
 
   useEffect(() => {
     fetchPatientDetails(route.params.patientId);
   }, []);
+
+  const onForwardPatient = () => {
+    forwardPatient(route.params.patientId, () => fetchPatientDetails(route.params.patientId));
+  };
 
   return selectedPatientDetails && !isPatientDetailsLoading ? (
     <Container as={ScrollView}>
@@ -54,11 +61,17 @@ export const PatientDetailsScreen = () => {
             gender={selectedPatientDetails.gender}
           />
         </PatientProfileContainer>
-        <EventList events={selectedPatientDetails.events} />
+        {hasEvents && <EventList events={selectedPatientDetails.events} />}
       </View>
-      <ButtonContainer>
-        <Button label={i18n.t(`${baseTranslationPath}forwardPatient`)} onPress={() => null} />
-      </ButtonContainer>
+      {!selectedPatientDetails.isForwarded && (
+        <ButtonContainer>
+          <Button
+            label={i18n.t(`${baseTranslationPath}forwardPatient`)}
+            onPress={onForwardPatient}
+            isLoading={isForwardPatientLoading}
+          />
+        </ButtonContainer>
+      )}
     </Container>
   ) : (
     <LoadingIndicator />

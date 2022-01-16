@@ -15,3 +15,7 @@ export const getSelectedPatientDetailsSelector = (state: AppState) => {
 export const getSelectedPatientsDetailsLoadingSelector = (state: AppState) => {
   return state.patients.loading.fetchSelectedPatientDetailsLoading;
 };
+
+export const getForwardPatientLoadingSelector = (state: AppState) => {
+  return state.patients.loading.forwardPatientLoading;
+};

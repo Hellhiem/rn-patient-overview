@@ -1,6 +1,10 @@
 import { AlertService } from 'lib/services';
 import { put, takeLatest } from 'redux-saga/effects';
-import { fetchPatientsListService, fetchPatientDetailsService } from 'services/patients';
+import {
+  fetchPatientsListService,
+  fetchPatientDetailsService,
+  forwardPatientService,
+} from 'services/patients';
 import {
   fetchPatientDetailsAction,
   fetchPatientDetailsErrorAction,
@@ -8,9 +12,12 @@ import {
   fetchPatientListAction,
   fetchPatientListErrorAction,
   fetchPatientListSuccessAction,
+  forwardPatientAction,
+  forwardPatientErrorAction,
+  forwardPatientSuccessAction,
 } from 'store/actions';
 import { call } from 'typed-redux-saga';
-import { FetchPatientDetailsActionType } from 'types';
+import { FetchPatientDetailsActionType, ForwardPatientActionType } from 'types';
 
 export function* fetchPatientsListSaga() {
   try {
@@ -38,7 +45,24 @@ export function* fetchPatientsDetailsSaga(action: FetchPatientDetailsActionType)
   }
 }
 
+export function* forwardPatientSaga(action: ForwardPatientActionType) {
+  try {
+    const response = yield* call(forwardPatientService, action.payload.patientId);
+
+    if (response) {
+      yield put(forwardPatientSuccessAction());
+      action.payload.successCallback && action.payload.successCallback();
+    }
+  } catch (error) {
+    const errorObject = error as Error;
+
+    yield put(forwardPatientErrorAction(errorObject));
+    AlertService.show(errorObject.message);
+  }
+}
+
 export const patientsSaga = [
   takeLatest(fetchPatientListAction, fetchPatientsListSaga),
   takeLatest(fetchPatientDetailsAction, fetchPatientsDetailsSaga),
+  takeLatest(forwardPatientAction, forwardPatientSaga),
 ];
